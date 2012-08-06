@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Rich Text Editor</title>
+        <link rel="stylesheet" href="richeditor.css" type="text/css"/>
+        <style>
+            * {margin:0;padding:0;}
+            body{padding:10px;}
+            h1{font-size:22px;margin:15px 0 5px;}
+            h2{font-size:20px;margin:13px 0 5px;}
+            h3{font-size:18px;margin:11px 0 5px;}
+            h4{font-size:16px;margin:9px 0 5px;}
+            h5{font-size:14px;margin:7px 0 5px;}
+            h6{font-size:12px;margin:5px 0 5px;}
+            p,.line{display:block;padding:5px;}
+            p{line-height:150%;}
+            button{padding:3px;margin:5px;}
+        </style>
+    </head>
+    <body>
+        <div id="csstest">
+            <h3>CSS测试</h3>
+            <div class="richeditor">
+                <iframe class="richeditor-iframe">This is a test!</iframe>
+            </div>
+            <div class="line">
+            </div>
+        </div>
+        <div id="demo">
+            <h3>组件演示</h3>
+            <div class="line"><textarea class="textarea">My Test for &lt;span class=&quot;Apple-style-span&quot; style=&quot;color: rgb(255, 0, 0);&quot;&gt;Rich Text Editor&lt;/span&gt;!&lt;br&gt;My Test for &lt;font color=&quot;#F00&quot;&gt;Rich Text Editor&lt;/font&gt;!</textarea></div>
+            <div class="line">
+                <button class="button" onclick="re.mode(false);">mode0</button>
+                <button class="button" onclick="re.mode(true);">mode1</button>
+                <button class="button" onclick="re.mode(!re.mode());">mode_</button>
+                <button class="button" onclick="re.styleWithCSS(true);">CSS1</button>
+                <button class="button" onclick="re.styleWithCSS(false);">CSS0</button>
+                <button class="button" onclick="re.focus();">focus</button>
+                <button class="button" onclick="re.print();">print</button>
+                <button class="button" onclick="alert(re.html());">html</button>
+                <button class="button" onclick="retest();">retest</button>
+            </div>
+        </div>
+        <script src="https://raw.github.com/RockMing/GnimJS/master/full/gnim.js"></script>
+        <script src="richeditor-min.js"></script>
+        <script>
+            var iframe=$('#csstest .richeditor-iframe')[0].contentWindow;
+            var demo={
+                i:iframe,
+                d:iframe.document,
+                focus:function(){
+                    demo.i.focus();
+                    return demo;
+                },
+                enable:function(en){
+                    if(typeof en=='undefined'){
+                        return demo.d.designMode=='on';
+                    }else{
+                        demo.d.designMode=en?'on':'off';
+                        return demo;
+                    }
+                },
+                cmd:function(cmd,val){
+                    demo.d.execCommand(cmd,false,val);
+                    return demo;
+                }
+            };
+            demo.enable(true).focus();
+            for(var i=1;i<=8;i++){
+                $('<button class="button" onclick="test'+i+'();">test'+i+'()</button>').appendTo('#csstest .line');
+            }
+            function test1(){
+                demo.enable(!demo.enable()).focus();
+            }
+            function test2(){
+                var imagePath='https://secure.gravatar.com/avatar/c968e8941260be2e86c32c6daf603fba';
+                demo.focus().cmd('insertimage', imagePath);
+            }
+            function test3(){
+                demo.focus().cmd('createlink', "http://www.baidu.com");
+            }
+            function test4(){
+                demo.focus().cmd('bold',null);
+            }
+            function test5(){
+                demo.focus().cmd('italic',null);
+            }
+            function test6(){
+                demo.focus().cmd('underline',null);
+            }
+            function test7(){
+                demo.focus().cmd('hilitecolor','#eee');
+            }
+            function test8(){
+                demo.focus().cmd('insertHTML','<b>Hello <em style=\"color:red;\">World</em>!</b>');
+            }
+            
+            
+            var re=new RichEditor('#demo .textarea',{
+                //body:'This is a <font color="#FF0000">test</font>!',
+                fontname:['宋体','Hei','楷体','Microsoft Yahei','Verdana','Arial','Georgia'],
+                styleWithCSS:true,
+                enable:true
+            });
+            
+            function retest(){
+                re._cmd('createlink', "http://www.baidu.com");
+                
+            }
+            
+        </script>
+    </body>
+</html>

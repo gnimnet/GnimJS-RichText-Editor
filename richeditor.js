@@ -162,7 +162,7 @@
         var iframeID=ID_PREFIX+aid;
         var $iframe=self.$i=_$createTag('iframe',CLASS_RE_I).attr('id',iframeID).appendTo($dom);
         self.$m=_$createTag('div',CLASS_RE_M).css(DISPLAY_NONE).css({opacity:0.1}).appendTo($dom);
-        var doc=self.d=(self.i=window.frames[iframeID]||$iframe[0].contentWindow).document;
+        var doc=self.d=(self.i=$iframe[0].contentWindow||window.frames[iframeID]).document;
         doc.open();
         doc.write(options.html||_iframeHtml(options.charset,options.cssFile,options.content||$textarea[0].value));
         doc.close();

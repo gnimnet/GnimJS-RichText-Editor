@@ -1,9 +1,9 @@
 /*
  *  This JavaScript file for Rich Text Editor
  *  this component works for GnimJS
- *  Version 0.1.0
+ *  Version 0.1.1
  *  Write by Ming
- *  Date 2011.10.16
+ *  Date 2021.01.19
  */
 (function(window,$,UNDEFINED){
     var autoid=0;
@@ -117,6 +117,7 @@
         var aid=self.autoid=++autoid;
         RichEditor[aid]=self;
         self.xhtml=options.xhtml!==false;
+        self.hook=options.hook||{};
         self._mode=true;
         var $dom=self.$d=_$createTag('div',CLASS_RE).attr('autoid',aid).insertAfter($textarea);
         var $toolbox=self.$b=_$createTag('div',CLASS_RE_B).appendTo($dom);
@@ -139,7 +140,9 @@
                         }else{
                             $icon=_$createTag('button', CLASS_RE_BI).click(function(e){
                                 _no(e);
-                                self[f[I_NAME]]();
+                                var hook=(self.hook||{})[f[I_NAME]];
+                                var func=self[f[I_NAME]];
+                                hook?hook():func();
                             }).appendTo($toolbox);
                         }
                         if($icon){

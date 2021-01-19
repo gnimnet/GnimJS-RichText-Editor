@@ -101,7 +101,15 @@
                 //body:'This is a <font color="#FF0000">test</font>!',
                 fontname:['宋体','Hei','楷体','Microsoft Yahei','Verdana','Arial','Georgia'],
                 styleWithCSS:true,
-                enable:true
+                enable:true,
+                hook:{
+                    insertimage:function(){
+                        var image=prompt('自定义输入图片网址 ：）');
+                        if(image){
+                            re.insertimage(image);
+                        }
+                    }
+                }
             });
             
             function retest(){
